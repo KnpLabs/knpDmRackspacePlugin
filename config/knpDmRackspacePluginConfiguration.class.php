@@ -11,6 +11,11 @@ class knpDmRackspacePluginConfiguration extends sfPluginConfiguration
 
   public function listenToDmContextLoaded(sfEvent $e)
   {
+    if($e->getSubject()->getUser()->can('admin'))
+    {
+      // do not use a CDN if logged as an admin
+      return;
+    }
     if($this->configuration instanceof dmFrontApplicationConfiguration)
     {
       if(sfConfig::get('app_rackspace_enabled'))
